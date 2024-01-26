@@ -6,11 +6,11 @@ interface LegendProps {
 
 const Legend: React.FC<LegendProps> = ({ data }) => {
   return (
-    <div className="flex">
+    <div className="flex self-end">
       {data.map((item, index) => (
-        <div key={index} className="flex items-center mr-4">
+        <div key={index} className="flex items-center">
           <span
-            className={`inline-block mr-2 rounded-full ${
+            className={`mx-2 rounded-full w-3 h-3 ${
               item.color === "#282D30" ? "bg-gray-800" : "bg-red-600"
             }`}></span>
           <span>{item.name}</span>

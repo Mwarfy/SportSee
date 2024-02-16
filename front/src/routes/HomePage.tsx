@@ -6,10 +6,18 @@ import { useGetUserFnQuery, useGetUserQuery } from "../api/api";
 import { useParams } from "react-router-dom";
 import { skipToken } from "@reduxjs/toolkit/query";
 
+const Mock = true;
+
 export const HomePage: React.FC = () => {
   const { id } = useParams();
   const { currentData, isFetching } = useGetUserQuery(
     id ? Number(id) : skipToken
+  );
+  const { currentData: objectif } = useGetUserQuery(
+    Mock ? skipToken : id ? Number(id) : skipToken
+  );
+  const { currentData: objectifFn } = useGetUserFnQuery(
+    Mock ? (id ? Number(id) : skipToken) : skipToken
   );
 
   return (
@@ -38,10 +46,15 @@ export const HomePage: React.FC = () => {
             </div>
             <div className="flex gap-5 w-full h-full mt-5 ">
               <div className="w-9/12 bg-gray-50 rounded-lg">
-                <Graphs />
+                <Graphs Mock={Mock} />
               </div>
               <div className="w-3/12">
-                <AsideIcons keyData={currentData?.data.keyData} />
+                {objectifFn?.data.keyData && (
+                  <AsideIcons keyData={objectifFn?.data.keyData} />
+                )}
+                {objectif?.data.keyData && (
+                  <AsideIcons keyData={objectif?.data.keyData} />
+                )}
               </div>
             </div>
           </div>

@@ -16,9 +16,7 @@ import CustomLegend from "./CustomLegend";
 import { useParams } from "react-router-dom";
 import { skipToken } from "@reduxjs/toolkit/query";
 
-const Mock = true;
-
-export const Graphs: React.FC = () => {
+export const Graphs: React.FC<{ Mock: boolean }> = ({ Mock }) => {
   const { id } = useParams();
   const { currentData: activity } = useGetActivityQuery(
     Mock ? skipToken : id ? Number(id) : skipToken

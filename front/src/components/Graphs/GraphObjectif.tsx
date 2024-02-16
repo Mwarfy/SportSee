@@ -1,6 +1,6 @@
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
-export const GraphObjectif: React.FC<{ currentData: number }> = ({
+export const GraphObjectif: React.FC<{ currentData?: number }> = ({
   currentData,
 }) => {
   const data = [{ value: currentData }];
@@ -20,7 +20,7 @@ export const GraphObjectif: React.FC<{ currentData: number }> = ({
             innerRadius={75}
             outerRadius={90}
             startAngle={90}
-            endAngle={270}
+            endAngle={(currentData ? 360 * currentData : 0) + 90}
             cornerRadius={10}
             dataKey="value">
             {data.map((_, index) => (
@@ -31,7 +31,7 @@ export const GraphObjectif: React.FC<{ currentData: number }> = ({
       </ResponsiveContainer>
       <div className="absolute w-20 h-20  right-0 top-0 left-0 bottom-0 m-auto flex flex-col items-center">
         <span className="font-bold text-lg">
-          {(currentData * 100).toFixed(0)} %
+          {currentData && (currentData * 100).toFixed(0)} %
         </span>
         <span className="text-center">de votre objectif</span>
       </div>

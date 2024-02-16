@@ -13,10 +13,11 @@ export interface IUserInfos {
 
 export interface IUser {
   data: {
-    id: number;
-    keyData: IKeyData;
-    userInfos: IUserInfos;
-    todayScore: number;
+    id?: number;
+    keyData?: IKeyData;
+    userInfos?: IUserInfos;
+    todayScore?: number;
+    score?: number;
   };
 }
 export interface IActivityGraph {
@@ -45,17 +46,17 @@ export interface IPerformanceKind {
 
 export interface IActivity {
   data: {
-    sessions: IActivityGraph[];
+    sessions?: IActivityGraph[];
   };
 }
 export interface ISessions {
   data: {
-    sessions: ISessionGraph[];
+    sessions?: ISessionGraph[];
   };
 }
 export interface IPerformance {
   data: {
-    data: IPerformanceGraph[];
-    kind: IPerformanceKind;
+    data?: IPerformanceGraph[];
+    kind?: IPerformanceKind;
   };
 }

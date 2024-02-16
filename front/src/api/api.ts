@@ -1,61 +1,86 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IActivity, IPerformance, ISessions, IUser } from "../types/general";
+import {
+  IActivity,
+  IActivityGraph,
+  IPerformance,
+  ISessions,
+  IUser,
+} from "../types/general";
 import {
   USER_MAIN_DATA,
   USER_ACTIVITY,
   USER_AVERAGE_SESSIONS,
   USER_PERFORMANCE,
-} from "./data.js"; // Assurez-vous que le chemin vers data.js est correct
-
-const Mock = false;
+} from "./data.js";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:3000",
+  }),
   endpoints: (builder) => ({
     getUser: builder.query<IUser, number>({
-      query: (id) => {
-        if (Mock) {
-          const user = USER_MAIN_DATA.find((user) => user.id === id);
-          return JSON.stringify(user || "");
-        } else {
-          return `/user/${id}`;
-        }
+      query: (id) => ({ url: `/user/${id}` }),
+    }),
+    getUserFn: builder.query<IUser, number>({
+      queryFn: (id) => {
+        return {
+          data: {
+            data: {
+              id: USER_MAIN_DATA.find((item) => item.id === id)?.id,
+              keyData: USER_MAIN_DATA.find((item) => item.id === id)?.keyData,
+              userInfos: USER_MAIN_DATA.find((item) => item.id === id)
+                ?.userInfos,
+              todayScore: USER_MAIN_DATA.find((item) => item.id === id)
+                ?.todayScore,
+              score: USER_MAIN_DATA.find((item) => item.id === id)?.score,
+            },
+          },
+        };
       },
     }),
     getActivity: builder.query<IActivity, number>({
-      query: (id) => {
-        if (Mock) {
-          const activity = USER_ACTIVITY.find(
-            (activity) => activity.userId === id
-          );
-          return JSON.stringify(activity || "");
-        } else {
-          return `/user/${id}/activity`;
-        }
+      query: (id) => ({ url: `/user/${id}/activity` }),
+    }),
+    getActivityFn: builder.query<IActivity, number>({
+      queryFn: (id) => {
+        return {
+          data: {
+            data: {
+              sessions: USER_ACTIVITY.find((item) => item.userId === id)
+                ?.sessions,
+            },
+          },
+        };
       },
     }),
     getSessions: builder.query<ISessions, number>({
-      query: (id) => {
-        if (Mock) {
-          const session = USER_AVERAGE_SESSIONS.find(
-            (session) => session.userId === id
-          );
-          return JSON.stringify(session || "");
-        } else {
-          return `/user/${id}/average-sessions`;
-        }
+      query: (id) => ({ url: `/user/${id}/average-sessions` }),
+    }),
+    getSessionsFn: builder.query<ISessions, number>({
+      queryFn: (id) => {
+        return {
+          data: {
+            data: {
+              sessions: USER_AVERAGE_SESSIONS.find((item) => item.userId === id)
+                ?.sessions,
+            },
+          },
+        };
       },
     }),
     getPerformance: builder.query<IPerformance, number>({
-      query: (id) => {
-        if (Mock) {
-          const performance = USER_PERFORMANCE.find(
-            (performance) => performance.userId === id
-          );
-          return JSON.stringify(performance || "");
-        } else {
-          return `/user/${id}/performance`;
-        }
+      query: (id) => ({ url: `/user/${id}/performance` }),
+    }),
+    getPerformanceFn: builder.query<IPerformance, number>({
+      queryFn: (id) => {
+        return {
+          data: {
+            data: {
+              data: USER_PERFORMANCE.find((item) => item.userId === id)?.data,
+              kind: USER_PERFORMANCE.find((item) => item.userId === id)?.kind,
+            },
+          },
+        };
       },
     }),
   }),
@@ -63,7 +88,11 @@ export const api = createApi({
 
 export const {
   useGetUserQuery,
+  useGetUserFnQuery,
   useGetActivityQuery,
+  useGetActivityFnQuery,
   useGetSessionsQuery,
+  useGetSessionsFnQuery,
   useGetPerformanceQuery,
+  useGetPerformanceFnQuery,
 } = api;

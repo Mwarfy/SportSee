@@ -2,7 +2,7 @@ import { Aside } from "../components/Aside";
 import { Header } from "../components/Header";
 import { AsideIcons } from "../components/AsideIcons";
 import { Graphs } from "../components/routeGraphs";
-import { useGetUserQuery } from "../api/api";
+import { useGetUserFnQuery, useGetUserQuery } from "../api/api";
 import { useParams } from "react-router-dom";
 import { skipToken } from "@reduxjs/toolkit/query";
 
@@ -26,7 +26,9 @@ export const HomePage: React.FC = () => {
             <div className="flex gap-2 text-3xl font-bold mb-1">
               <span>Bonjour</span>
               <span className="text-red-500">
-                {currentData?.data.userInfos.firstName}
+                {currentData?.data &&
+                  currentData?.data.userInfos &&
+                  currentData?.data.userInfos.firstName}
               </span>
             </div>
             <div>
